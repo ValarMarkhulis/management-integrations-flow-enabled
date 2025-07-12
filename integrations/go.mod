@@ -1,4 +1,4 @@
-module github.com/netbirdio/management-integrations/integrations
+module github.com/ValarMarkhulis/management-integrations-flow-enabled/integrations
 
 go 1.23.0
 
