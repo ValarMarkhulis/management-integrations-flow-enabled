@@ -9,6 +9,7 @@ require (
 	github.com/netbirdio/netbird v0.45.2-0.20250529122133-7a9c80ae84a5
 	github.com/sirupsen/logrus v1.9.3
 	go.opentelemetry.io/otel/metric v1.26.0
+	google.golang.org/protobuf v1.36.5
 )
 
 require (
@@ -123,7 +124,6 @@ require (
 	google.golang.org/api v0.177.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240903143218-8af14fe29dc1 // indirect
 	google.golang.org/grpc v1.64.1 // indirect
-	google.golang.org/protobuf v1.36.5 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
