@@ -3,6 +3,7 @@ package integrations
 import (
 	"context"
 
+	"github.com/netbirdio/netbird/management/proto"
 	"github.com/netbirdio/netbird/management/server/activity"
 	nbpeer "github.com/netbirdio/netbird/management/server/peer"
 	"github.com/netbirdio/netbird/management/server/types"
@@ -31,7 +32,7 @@ func (v *IntegratedValidatorImpl) IsNotValidPeer(_ context.Context, _ string, _ 
 	return false, false, nil
 }
 
-func (v *IntegratedValidatorImpl) GetValidatedPeers(_ string, _ []*types.Group, peers []*nbpeer.Peer, _ *types.ExtraSettings) (map[string]struct{}, error) {
+func (v *IntegratedValidatorImpl) GetValidatedPeers(_ context.Context, _ string, _ []*types.Group, peers []*nbpeer.Peer, _ *types.ExtraSettings) (map[string]struct{}, error) {
 	validatedPeers := make(map[string]struct{})
 	for _, p := range peers {
 		validatedPeers[p.ID] = struct{}{}
@@ -39,7 +40,7 @@ func (v *IntegratedValidatorImpl) GetValidatedPeers(_ string, _ []*types.Group, 
 	return validatedPeers, nil
 }
 
-func (v *IntegratedValidatorImpl) PeerDeleted(ctx context.Context, _, _ string) error {
+func (v *IntegratedValidatorImpl) PeerDeleted(ctx context.Context, _, _ string, extraSettings *types.ExtraSettings) error {
 	return nil
 }
 
@@ -48,4 +49,8 @@ func (v *IntegratedValidatorImpl) SetPeerInvalidationListener(_ func(accountID s
 }
 
 func (v *IntegratedValidatorImpl) Stop(ctx context.Context) {
+}
+
+func (v *IntegratedValidatorImpl) ValidateFlowResponse(ctx context.Context, peerKey string, flowResponse *proto.PKCEAuthorizationFlow) *proto.PKCEAuthorizationFlow {
+	return flowResponse
 }
