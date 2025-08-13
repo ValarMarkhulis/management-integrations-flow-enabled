@@ -13,7 +13,7 @@ import (
 )
 
 func ExtendNetBirdConfig(peerID string, peerGroups []string, config *proto.NetbirdConfig, extraSettings *types.ExtraSettings) *proto.NetbirdConfig {
-	if !extraSettings.FlowEnabled {
+	if extraSettings == nil || !extraSettings.FlowEnabled {
 		log.Debugf("Flow is disabled, skipping flow config injection")
 		return config
 	}
