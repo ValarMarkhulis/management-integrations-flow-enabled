@@ -3,7 +3,7 @@ package integrations
 import (
 	"context"
 
-	"github.com/netbirdio/netbird/management/proto"
+	"github.com/netbirdio/netbird/shared/management/proto"
 	"github.com/netbirdio/netbird/management/server/activity"
 	nbpeer "github.com/netbirdio/netbird/management/server/peer"
 	"github.com/netbirdio/netbird/management/server/types"
@@ -44,7 +44,7 @@ func (v *IntegratedValidatorImpl) PeerDeleted(ctx context.Context, _, _ string, 
 	return nil
 }
 
-func (v *IntegratedValidatorImpl) SetPeerInvalidationListener(_ func(accountID string)) {
+func (v *IntegratedValidatorImpl) SetPeerInvalidationListener(_ func(accountID string, peerIDs []string)) {
 
 }
 
