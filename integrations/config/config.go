@@ -55,7 +55,6 @@ func ExtendNetBirdConfig(peerID string, peerGroups []string, config *proto.Netbi
 		Url:      FlowURL,
 		Interval: flowIntervalProto,
 		Enabled:  extraSettings.FlowEnabled,
-		},
 	}
 	log.Debugf("Flow was update to %v ", config.Flow)
 
