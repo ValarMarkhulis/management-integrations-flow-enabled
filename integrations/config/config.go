@@ -12,7 +12,7 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 )
 
-func ExtendNetBirdConfig(peerID string, peerGroups []string, config *proto.NetbirdConfig, extraSettings *types.ExtraSettings) *proto.NetbirdConfig {
+func ExtendNetBirdConfig(peerID string, config *proto.NetbirdConfig, extraSettings *types.ExtraSettings) *proto.NetbirdConfig {
 	if extraSettings == nil || !extraSettings.FlowEnabled {
 		log.Debugf("Flow is disabled, skipping flow config injection")
 		return config
@@ -33,30 +33,28 @@ func ExtendNetBirdConfig(peerID string, peerGroups []string, config *proto.Netbi
 		log.Debugf("Env 'NB_FLOW_URL' was set to: '%s'", FlowURL)
 	}
 
-	NB_FlowIntervalInMinuets := os.Getenv("NB_FlowIntervalInMinuets")
-	if NB_FlowIntervalInMinuets == "" {
+	NB_FlowIntervalInMinutes := os.Getenv("NB_FlowIntervalInMinutes")
+	if NB_FlowIntervalInMinutes == "" {
 		// Default interval is 10 minutes
-		NB_FlowIntervalInMinuets = "10"
-		log.Infof("Env 'NB_FlowIntervalInMinuets' is not set, using default: '%s'", NB_FlowIntervalInMinuets)
+		NB_FlowIntervalInMinutes = "10"
+		log.Infof("Env 'NB_FlowIntervalInMinutes' is not set, using default: '%s'", NB_FlowIntervalInMinutes)
 	} else {
-		log.Debugf("Env 'NB_FlowIntervalInMinuets' was set to: '%s'", NB_FlowIntervalInMinuets)
+		log.Debugf("Env 'NB_FlowIntervalInMinutes' was set to: '%s'", NB_FlowIntervalInMinutes)
 	}
 
-	flowInterval, err := time.ParseDuration(NB_FlowIntervalInMinuets + "m")
+	flowInterval, err := time.ParseDuration(NB_FlowIntervalInMinutes + "m")
 	if err != nil {
-		log.Errorf("Failed to parse 'NB_FlowIntervalInMinuets' value '%s': %v", NB_FlowIntervalInMinuets, err)
+		log.Errorf("Failed to parse 'NB_FlowIntervalInMinutes' value '%s': %v", NB_FlowIntervalInMinutes, err)
 		flowInterval = 10 * time.Minute // Fallback to default if parsing fails
 	}
 
 	// Convert flowInterval to protobuf duration
 	flowIntervalProto := durationpb.New(flowInterval)
 
-	config = &proto.NetbirdConfig{
-		Flow: &proto.FlowConfig{
-			Url:      FlowURL,
-			Interval: flowIntervalProto,
-			Enabled:  extraSettings.FlowEnabled,
-		},
+	config.Flow = &proto.FlowConfig{
+		Url:      FlowURL,
+		Interval: flowIntervalProto,
+		Enabled:  extraSettings.FlowEnabled,
 	}
 	log.Debugf("Flow was update to %v ", config.Flow)
 
