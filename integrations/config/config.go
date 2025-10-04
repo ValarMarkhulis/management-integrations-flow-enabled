@@ -51,11 +51,10 @@ func ExtendNetBirdConfig(peerID string, peerGroups []string, config *proto.Netbi
 	// Convert flowInterval to protobuf duration
 	flowIntervalProto := durationpb.New(flowInterval)
 
-	config = &proto.NetbirdConfig{
-		Flow: &proto.FlowConfig{
-			Url:      FlowURL,
-			Interval: flowIntervalProto,
-			Enabled:  extraSettings.FlowEnabled,
+	config.Flow = &proto.FlowConfig{
+		Url:      FlowURL,
+		Interval: flowIntervalProto,
+		Enabled:  extraSettings.FlowEnabled,
 		},
 	}
 	log.Debugf("Flow was update to %v ", config.Flow)
