@@ -7,6 +7,7 @@ import (
 	"github.com/netbirdio/netbird/management/server/activity"
 	"github.com/netbirdio/netbird/management/server/integrations/extra_settings"
 	"github.com/netbirdio/netbird/management/server/types"
+	log "github.com/sirupsen/logrus"
 )
 
 type ManagerImpl struct {
@@ -34,6 +35,7 @@ func (m *ManagerImpl) UpdateExtraSettings(ctx context.Context, accountID, userID
 		accountExtraSettings.FlowPacketCounterEnabled == m.FlowPacketCounterEnabled {
 		return false, nil // No changes to apply
 	}
+	log.Infof("Updating flow enabled setting FlowEnabled=%t for account %s by user %s", accountExtraSettings.FlowEnabled, accountID, userID)
 	m.FlowPacketCounterEnabled = accountExtraSettings.FlowPacketCounterEnabled
 	m.globalflowEnabled = accountExtraSettings.FlowEnabled
 	return true, nil
